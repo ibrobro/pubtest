@@ -1,7 +1,7 @@
 import Card from '@mui/material/Card';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import {useState} from 'react';
+import {useMemo, useState} from 'react';
 import Skeleton from '@mui/material/Skeleton';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -22,8 +22,14 @@ export interface UserCardProps {
 
 
 export function UserCard({user}: UserCardProps) {
-  const [imgLoaded, setImgLoaded] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(true);
   const [imgLoadError, setImgLoadError] = useState(null);
+
+  const firstLetterOfName = useMemo(()=> {
+    let matches = user.name.match(/\b(\w)/g);
+    matches = matches?.map(v => v.toUpperCase()) || null;
+    return matches?.join('')||'X';
+  }, [user.name]);
 
   return (
     <Card sx={{m:1,p: 1}} variant='outlined'>
@@ -32,14 +38,17 @@ export function UserCard({user}: UserCardProps) {
           <Grid item xs={3} sx={{width:'100%', height:'100px'}}>
             <RatioBox heightRatio={1}>
               {imgLoaded
-                ? <Avatar  src={user.avatar} onLoad={() => setImgLoaded(true)} />
+                ? <Avatar  src={user.avatar} onLoad={() => setImgLoaded(true)} >
+                    {firstLetterOfName}
+                  </Avatar>
                 : <Skeleton variant='circular' sx={{height:'100%', width:'100%'}} />
               }
             </RatioBox>
           </Grid>
           <Grid item xs={9}>
-            <Stack direction='column'>
-              <Typography>{user.name}</Typography>
+            <Stack direction='column' sx={{pl: 2}}>
+              <Typography component={'h4'}>{user.name}</Typography>
+              <Typography component={'strong'} sx={{fontSize: '0.9rem',color: 'lightgray', textTransform:'capitalize'}}>{user.occupation}</Typography>
             </Stack>
           </Grid>
         </Grid>
