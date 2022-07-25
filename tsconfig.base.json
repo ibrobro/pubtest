@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@rahul/react/ui": ["libs/react/ui/src/index.ts"],
+      "@rahul/typescript/util": ["libs/typescript/util/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

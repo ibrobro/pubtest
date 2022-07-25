@@ -1,5 +1,10 @@
 {
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
-  "projects": {}
+  "projects": {
+    "interviewapp": "apps/interviewapp",
+    "interviewapp-e2e": "apps/interviewapp-e2e",
+    "react-ui": "libs/react/ui",
+    "typescript-util": "libs/typescript/util"
+  }
 }
