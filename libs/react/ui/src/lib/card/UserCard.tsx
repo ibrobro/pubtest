@@ -1,13 +1,13 @@
 import Card from '@mui/material/Card';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import {useMemo, useCallback, useState, useEffect} from 'react';
+import {useMemo, useState, useEffect} from 'react';
 import Skeleton from '@mui/material/Skeleton';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import { RatioBox } from '../layout/RatioBox';
 import {UserLog, UserWithLog, USER_LOG_TYPE} from '@rahul/typescript/util';
-import {CartesianGrid, Line, LineChart, Tooltip} from 'recharts';
+import {CartesianGrid, Line, LineChart, Tooltip, ResponsiveContainer, XAxis} from 'recharts';
 import Box from '@mui/material/Box';
 
 interface CalculationResults {
@@ -128,10 +128,10 @@ export function UserCard({userWithLog}: UserCardProps) {
   }, [user.name]);
 
   return (
-    <Card sx={{m:1,p: 1}} variant='outlined'>
+    <Card sx={{m:.5,p: 1}} variant='outlined'>
       <RatioBox heightRatio={0.75} >
         <Grid container>
-          <Grid item xs={3} sx={{width:'100%', height:'100px'}}>
+          <Grid item xs={3}>
             <RatioBox heightRatio={1}>
               {isLoadingImg 
                   ? <Skeleton variant='circular' sx={{width:'100%', height: '100%'}} />
@@ -228,16 +228,18 @@ function ConversionPerDayChart({conversionsPerDay}: ConversionPerDayChartProps) 
   return (
       <Box sx={{p: 1, position: 'relative'}}>
         {(conversionsPerDay !== null)
-            ? <LineChart
-                width={150}
-                height={110}
-                data={conversionsPerDay}
-                margin={{ top: 5, right: 5, left: 5, bottom: 15 }}
-              >
-                <Tooltip />
-                <CartesianGrid stroke="#f5f5f5" />
-                <Line type="monotone" dataKey="conv" stroke="#ff7300" yAxisId={0} />
-              </LineChart>
+            ? <ResponsiveContainer width='100%' height={125}>
+                <LineChart
+                  width={150}
+                  height={110}
+                  data={conversionsPerDay}
+                  margin={{ top: 5, right: 5, left: 5, bottom: 15 }}
+                >
+                  <Tooltip />
+                  <CartesianGrid stroke="#f5f5f5" />
+                  <Line type="monotone" dataKey="conv" stroke="#ff7300" yAxisId={0} />
+                </LineChart>
+              </ResponsiveContainer>
             : <Skeleton sx={{width:'100%', height: '100%'}} />
       }
     </Box>
