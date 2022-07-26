@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import { RatioBox } from '../layout/RatioBox';
 import {UserLog, UserWithLog, USER_LOG_TYPE} from '@rahul/typescript/util';
-import {CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis} from 'recharts';
+import {CartesianGrid, Line, LineChart, Tooltip} from 'recharts';
 import Box from '@mui/material/Box';
 
 interface CalculationResults {
@@ -75,7 +75,7 @@ export function UserCard({userWithLog}: UserCardProps) {
           let rev = 0;
           let imp = 0;
           let conv = 0;
-          const conversionsPerDay: DateConversion[] = [];
+          let conversionsPerDay: DateConversion[] = [];
           logs.forEach((o: UserLog) => {
             rev += o.revenue;
             if(o.type === USER_LOG_TYPE.conversion) {
@@ -95,8 +95,13 @@ export function UserCard({userWithLog}: UserCardProps) {
               conv += o.revenue;
             } else if (o.type === USER_LOG_TYPE.impression) {
               imp += o.revenue;
-            } 
+            }
           });
+
+          conversionsPerDay = conversionsPerDay.sort((a,b)=> {
+            return +new Date(a.date) - +new Date(b.date);
+          });
+          
           resolve({rev,imp,conv, conversionsPerDay});
         } catch(e) {
           reject(e);
@@ -229,6 +234,7 @@ function ConversionPerDayChart({conversionsPerDay}: ConversionPerDayChartProps) 
                 data={conversionsPerDay}
                 margin={{ top: 5, right: 5, left: 5, bottom: 15 }}
               >
+                <Tooltip />
                 <CartesianGrid stroke="#f5f5f5" />
                 <Line type="monotone" dataKey="conv" stroke="#ff7300" yAxisId={0} />
               </LineChart>
