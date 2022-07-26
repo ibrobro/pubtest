@@ -12,6 +12,12 @@ export interface UserCardProps {
 }
 
 
+/**
+ * User card
+ * shows bio, chart, statistic
+ * @param param0 
+ * @returns 
+ */
 export function UserCard({userWithLog}: UserCardProps) {
   const {user, logs} = userWithLog;
 
