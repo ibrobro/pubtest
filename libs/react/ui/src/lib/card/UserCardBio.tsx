@@ -78,7 +78,7 @@ export function UserCardBio({user}: UserCardBioProps) {
                 component={'strong'} 
                 sx={{
                   fontSize: '0.9rem', 
-                  color: 'lightgray', 
+                  color: 'text.secondary', 
                   textTransform:'capitalize'}}
                 >
                   {user.occupation}

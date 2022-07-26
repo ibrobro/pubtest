@@ -28,6 +28,11 @@ export interface RatioBoxProps{
   children: ReactNode;
 }
 
+/**
+ * As container that will keep width n height ratio
+ * @param param0 
+ * @returns 
+ */
 export function RatioBox({heightRatio, children}: RatioBoxProps) {
   const paddingTop = (heightRatio*100).toString().concat('%');
 

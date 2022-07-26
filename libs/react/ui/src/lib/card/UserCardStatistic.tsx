@@ -88,7 +88,7 @@ function Impression({amount}: ImpressionProps) {
             : <Skeleton />
         }
       </Typography>
-      <Typography>impressions</Typography>
+      <Typography sx={{color: 'text.secondary'}}>impressions</Typography>
     </>
   );
 }
@@ -105,7 +105,7 @@ function Conversion({amount}: ConversionProps) {
           ? <Typography sx={{color: 'primary.main'}}>{amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
           : <Skeleton />
       }
-      <Typography>conversions</Typography>
+      <Typography sx={{color: 'text.secondary'}}>conversions</Typography>
     </>
   );
 }
@@ -117,7 +117,7 @@ interface RevenueProps {
 
 function Revenue({amount}: RevenueProps) {
   return (   
-    <Typography sx={{color: 'success.main'}}>
+    <Typography sx={{color: 'success.main', fontWeight: 'bold'}}>
       {(amount !== null)
           ? `$${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
           : <Skeleton />
