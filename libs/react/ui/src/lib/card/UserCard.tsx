@@ -7,25 +7,34 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import { RatioBox } from '../layout/RatioBox';
 import {UserLog, UserWithLog, USER_LOG_TYPE} from '@rahul/typescript/util';
+import {CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis} from 'recharts';
+import Box from '@mui/material/Box';
+
+interface CalculationResults {
+  conv: number;
+  imp: number;
+  rev: number;
+  conversionsPerDay: DateConversion[];
+}
+
+
+interface DateConversion{
+  date: string;
+  conv: number;
+}
 
 
 export interface UserCardProps {
   userWithLog: UserWithLog;
 }
 
-interface CalculationResults {
-  conv: number;
-  imp: number;
-  rev: number;
-}
-
 
 export function UserCard({userWithLog}: UserCardProps) {
   const {user, logs} = userWithLog;
-  const [revenue, setRevenue] = useState(0);
-  const [impressions, setImpressions] = useState(0);
-  const [conversions, setConversions] = useState(0);
-  
+  const [revenue, setRevenue] = useState<number|null>(null);
+  const [impressions, setImpressions] = useState<number|null>(null);
+  const [conversions, setConversions] = useState<number|null>(null);
+  const [convPerDay, setConvPerDay] = useState<DateConversion[]|null>(null);
   const [isLoadingImg, setIsLoadingImg] = useState(true);
   const [img, setImg] = useState('');
 
@@ -66,15 +75,29 @@ export function UserCard({userWithLog}: UserCardProps) {
           let rev = 0;
           let imp = 0;
           let conv = 0;
-          logs.forEach(o => {
+          const conversionsPerDay: DateConversion[] = [];
+          logs.forEach((o: UserLog) => {
             rev += o.revenue;
             if(o.type === USER_LOG_TYPE.conversion) {
+              const yearMonthDate = o.time?.split(' ')[0];
+              if(yearMonthDate) {
+                let cpd: DateConversion | undefined = 
+                    conversionsPerDay.find(e => e.date === yearMonthDate);
+                if(!cpd) {
+                  conversionsPerDay.push({
+                    date: yearMonthDate,
+                    conv: o.revenue,    
+                  });
+                } else {
+                  cpd.conv += o.revenue;
+                }
+              }
               conv += o.revenue;
             } else if (o.type === USER_LOG_TYPE.impression) {
               imp += o.revenue;
             } 
           });
-          resolve({rev,imp,conv});
+          resolve({rev,imp,conv, conversionsPerDay});
         } catch(e) {
           reject(e);
         }
@@ -82,10 +105,10 @@ export function UserCard({userWithLog}: UserCardProps) {
       promise
           .then((r: CalculationResults) => {
             if(!active) return;
-            console.log(r);
             setConversions(r.conv);
             setImpressions(r.imp);
             setRevenue(r.rev);
+            setConvPerDay(r.conversionsPerDay||[]);
           })
           .catch(e=>{
             if(!active) return;
@@ -123,9 +146,9 @@ export function UserCard({userWithLog}: UserCardProps) {
             </Stack>
           </Grid>
         </Grid>
-        <Grid container>
+        <Grid container sx={{mt: 2}}>
           <Grid item xs={8}>
-
+            <ConversionPerDayChart conversionsPerDay={convPerDay} />
           </Grid>
           <Grid item xs={4}>
             <Stack direction={'column'}>
@@ -142,13 +165,18 @@ export function UserCard({userWithLog}: UserCardProps) {
 
 
 interface ImpressionProps {
-  amount: number;
+  amount: number | null;
 }
 
 function Impression({amount}: ImpressionProps) {
   return (
     <>
-      <Typography>{amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+      <Typography>
+        {(amount !== null)
+            ? amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            : <Skeleton />
+        }
+      </Typography>
       <Typography>impressions</Typography>
     </>
   );
@@ -156,13 +184,16 @@ function Impression({amount}: ImpressionProps) {
 
 
 interface ConversionProps {
-  amount: number;
+  amount: number | null;
 }
 
 function Conversion({amount}: ConversionProps) {
   return (
     <>
-      <Typography>{amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+      {(amount !== null)
+          ? amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          : <Skeleton />
+      }
       <Typography>conversions</Typography>
     </>
   );
@@ -170,11 +201,39 @@ function Conversion({amount}: ConversionProps) {
 
 
 interface RevenueProps {
-  amount: number;
+  amount: number | null;
 }
 
 function Revenue({amount}: RevenueProps) {
+  return (   
+    <Typography>
+      {(amount !== null)
+          ? amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          : <Skeleton />
+      }
+    </Typography>
+  );
+}
+
+interface ConversionPerDayChartProps {
+  conversionsPerDay: DateConversion[] | null;
+}
+
+function ConversionPerDayChart({conversionsPerDay}: ConversionPerDayChartProps) {
   return (
-    <Typography>{amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+      <Box sx={{p: 1, position: 'relative'}}>
+        {(conversionsPerDay !== null)
+            ? <LineChart
+                width={150}
+                height={110}
+                data={conversionsPerDay}
+                margin={{ top: 5, right: 5, left: 5, bottom: 15 }}
+              >
+                <CartesianGrid stroke="#f5f5f5" />
+                <Line type="monotone" dataKey="conv" stroke="#ff7300" yAxisId={0} />
+              </LineChart>
+            : <Skeleton sx={{width:'100%', height: '100%'}} />
+      }
+    </Box>
   );
 }
