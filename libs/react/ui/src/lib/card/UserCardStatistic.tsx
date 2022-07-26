@@ -1,7 +1,7 @@
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import {UserLog, UserWithLog, USER_LOG_TYPE} from '@rahul/typescript/util';
+import {UserLog, USER_LOG_TYPE} from '@rahul/typescript/util';
 import { useEffect, useState } from 'react';
 
 
@@ -16,6 +16,11 @@ interface UserCardStatisticProps {
 }
 
 
+/**
+ * User Statistic: revenue, impression, conversions
+ * @param param0 
+ * @returns 
+ */
 export function UserCardStatistic({logs}: UserCardStatisticProps) {
   const [revenue, setRevenue] = useState<number|null>(null);
   const [impressions, setImpressions] = useState<number|null>(null);
@@ -79,7 +84,7 @@ function Impression({amount}: ImpressionProps) {
     <>
       <Typography>
         {(amount !== null)
-            ? amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            ? <Typography sx={{color: 'secondary.main'}}>{amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
             : <Skeleton />
         }
       </Typography>
@@ -97,7 +102,7 @@ function Conversion({amount}: ConversionProps) {
   return (
     <>
       {(amount !== null)
-          ? amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          ? <Typography sx={{color: 'primary.main'}}>{amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
           : <Skeleton />
       }
       <Typography>conversions</Typography>
@@ -112,9 +117,9 @@ interface RevenueProps {
 
 function Revenue({amount}: RevenueProps) {
   return (   
-    <Typography>
+    <Typography sx={{color: 'success.main'}}>
       {(amount !== null)
-          ? amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          ? `$${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
           : <Skeleton />
       }
     </Typography>

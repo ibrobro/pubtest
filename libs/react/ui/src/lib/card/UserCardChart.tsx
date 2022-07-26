@@ -1,8 +1,6 @@
 import Box from '@mui/material/Box';
 import Skeleton from '@mui/material/Skeleton';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import {UserLog, UserWithLog, USER_LOG_TYPE} from '@rahul/typescript/util';
+import {UserLog, USER_LOG_TYPE} from '@rahul/typescript/util';
 import { useEffect, useState } from 'react';
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts';
 
@@ -17,7 +15,11 @@ interface UserCardChartProps {
 }
 
 
-
+/**
+ * User chart
+ * @param param0 
+ * @returns 
+ */
 export function UserCardChart({logs}: UserCardChartProps) {
   const [convPerDay, setConvPerDay] = useState<DateConversion[]|null>(null);
   // CALCULATING VALUES

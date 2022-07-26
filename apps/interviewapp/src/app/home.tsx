@@ -9,7 +9,10 @@ import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
 
 
-
+/**
+ * Home/Landing page component
+ * @returns 
+ */
 export default function Home(){
   const [usersWithLogs, setUsersWithLogs] = useState<UserWithLog[]>([]);
 
