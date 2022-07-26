@@ -1,6 +1,6 @@
 const arrayInput = [1,1,2];
 
-
+/*
 function permute(arr = []) {
 	let resultsAsString = [];
   let results = [];
@@ -34,3 +34,4 @@ const permutedArrayOutput = permute(arrayInput);
 for (const item of permutedArrayOutput) {
   console.log(item);
 }
+*/
