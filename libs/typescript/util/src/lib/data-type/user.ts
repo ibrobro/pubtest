@@ -1,6 +1,8 @@
 import { UserLog} from "./user-log";
 
-
+/**
+ * Typescript user's data type
+ */
 export interface UserType{
   name: string;
   avatar: string;

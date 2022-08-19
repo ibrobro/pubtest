@@ -1,3 +1,6 @@
+/**
+ * Users sample data given by Rahul
+ */
 const users = [
   {
     "name": "Charlie S. Gerardi",

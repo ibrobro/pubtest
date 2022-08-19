@@ -1,3 +1,6 @@
+/**
+ * Typescript data type for user's log
+ */
 export interface UserLog {
   time: string;
   type: string;

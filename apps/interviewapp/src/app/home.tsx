@@ -10,12 +10,15 @@ import Typography from '@mui/material/Typography';
 
 
 /**
- * Home/Landing page component
- * @returns 
+ * Home/Landing page component.
+ * 
+ * @return  ReactNode   Home React Component   
  */
 export default function Home(){
+  // Users data to be displayed
   const [usersWithLogs, setUsersWithLogs] = useState<UserWithLog[]>([]);
 
+  // Expensive processes of user's data
   useEffect(() => {
     let active = true;
     
@@ -51,6 +54,7 @@ export default function Home(){
     }
   }, []);
 
+  // User's data displayed as Card
   const userCards = useMemo(() => {
     return (
       usersWithLogs.map((u,k) => ( 
@@ -61,6 +65,7 @@ export default function Home(){
     )
   }, [usersWithLogs]);
 
+  // Returns the components
   return(
     <Container>
       {userCards

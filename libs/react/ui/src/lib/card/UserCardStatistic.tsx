@@ -18,8 +18,8 @@ interface UserCardStatisticProps {
 
 /**
  * User Statistic: revenue, impression, conversions
- * @param param0 
- * @returns 
+ * @param   UserLog[] logs 
+ * @returns ReactNode
  */
 export function UserCardStatistic({logs}: UserCardStatisticProps) {
   const [revenue, setRevenue] = useState<number|null>(null);
@@ -79,6 +79,11 @@ interface ImpressionProps {
   amount: number | null;
 }
 
+/**
+ * Show user's impression
+ * @param   Number    amount
+ * @returns ReactNode
+ */
 function Impression({amount}: ImpressionProps) {
   return (
     <>
@@ -98,6 +103,11 @@ interface ConversionProps {
   amount: number | null;
 }
 
+/**
+ * Show user's conversion
+ * @param     Number amount
+ * @returns
+ */
 function Conversion({amount}: ConversionProps) {
   return (
     <>
@@ -115,6 +125,11 @@ interface RevenueProps {
   amount: number | null;
 }
 
+/**
+ * Show user's Revenue
+ * @param   Number    amount
+ * @returns ReactNode
+ */
 function Revenue({amount}: RevenueProps) {
   return (   
     <Typography sx={{color: 'success.main', fontWeight: 'bold'}}>

@@ -17,8 +17,8 @@ interface UserCardChartProps {
 
 /**
  * User chart
- * @param param0 
- * @returns 
+ * @param   UserLog[] logs 
+ * @returns ReactNode
  */
 export function UserCardChart({logs}: UserCardChartProps) {
   const [convPerDay, setConvPerDay] = useState<DateConversion[]|null>(null);

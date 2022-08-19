@@ -1,5 +1,8 @@
 const arrayInput = [1,1,2];
 
+/**
+ * This is just backup for interview's question #1 answer.
+ */
 /*
 function permute(arr = []) {
 	let resultsAsString = [];

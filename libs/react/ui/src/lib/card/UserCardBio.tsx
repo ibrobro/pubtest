@@ -17,7 +17,7 @@ export interface UserCardBioProps {
 
 /*******************************************************************************
  * Displaying User's Avatar, Name, Occupation
- * @param user
+ * @param   UserType  user
  * @returns ReactNode
  ******************************************************************************/
 export function UserCardBio({user}: UserCardBioProps) {

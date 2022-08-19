@@ -15,8 +15,8 @@ export interface UserCardProps {
 /**
  * User card
  * shows bio, chart, statistic
- * @param param0 
- * @returns 
+ * @param     userrWithLog  ReactNode
+ * @returns                 ReactNode
  */
 export function UserCard({userWithLog}: UserCardProps) {
   const {user, logs} = userWithLog;
